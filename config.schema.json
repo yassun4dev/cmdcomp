@@ -1,0 +1,814 @@
+{
+    "$defs": {
+        "V1AppInfo": {
+            "additionalProperties": false,
+            "description": "your cli app info.",
+            "properties": {
+                "name": {
+                    "title": "your cli app name.",
+                    "type": "string"
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the cli app name."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "V1AppInfo",
+            "type": "object"
+        },
+        "V1CmdCompInfo": {
+            "additionalProperties": false,
+            "description": "cmdcomp info.",
+            "properties": {
+                "version": {
+                    "const": "1",
+                    "title": "cmdcomp config schema version."
+                }
+            },
+            "required": [
+                "version"
+            ],
+            "title": "V1CmdCompInfo",
+            "type": "object"
+        },
+        "V1CommandOption": {
+            "additionalProperties": false,
+            "description": "complete with the result of executing the command in the Shell command.",
+            "properties": {
+                "type": {
+                    "const": "command",
+                    "title": "Type"
+                },
+                "execute": {
+                    "title": "command to execute.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "execute"
+            ],
+            "title": "V1CommandOption",
+            "type": "object"
+        },
+        "V1Config": {
+            "additionalProperties": false,
+            "description": "cmdcomp config.",
+            "properties": {
+                "cmdcomp": {
+                    "$ref": "#/$defs/V1CmdCompInfo"
+                },
+                "app": {
+                    "$ref": "#/$defs/V1AppInfo"
+                },
+                "root": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/V1SubCommandsCommand"
+                        },
+                        {
+                            "$ref": "#/$defs/V1SpecificOptionsCommand"
+                        }
+                    ],
+                    "title": "Root"
+                }
+            },
+            "required": [
+                "cmdcomp",
+                "app",
+                "root"
+            ],
+            "title": "V1Config",
+            "type": "object"
+        },
+        "V1FileOption": {
+            "additionalProperties": false,
+            "description": "a: complete with a relative path from the directory specified by base_path.",
+            "properties": {
+                "type": {
+                    "const": "file",
+                    "title": "Type"
+                },
+                "base_path": {
+                    "title": "path of the directory from which to base filename completion.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "base_path"
+            ],
+            "title": "V1FileOption",
+            "type": "object"
+        },
+        "V1SpecificOptionsCommand": {
+            "additionalProperties": false,
+            "description": "A command that can specify options.",
+            "properties": {
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the command."
+                },
+                "options": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/V1FileOption"
+                        },
+                        {
+                            "$ref": "#/$defs/V1CommandOption"
+                        }
+                    ],
+                    "title": "options of the command."
+                }
+            },
+            "required": [
+                "options"
+            ],
+            "title": "V1SpecificOptionsCommand",
+            "type": "object"
+        },
+        "V1SubCommandsCommand": {
+            "additionalProperties": false,
+            "description": "A command that can specify a subcommand.",
+            "properties": {
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the command."
+                },
+                "options": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "title": "options of the command."
+                },
+                "subcommands": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/V1SubCommandsCommand"
+                            },
+                            {
+                                "$ref": "#/$defs/V1SpecificOptionsCommand"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "title": "subcommands of the command.",
+                    "type": "object"
+                }
+            },
+            "title": "V1SubCommandsCommand",
+            "type": "object"
+        },
+        "V2AppInfo": {
+            "additionalProperties": false,
+            "description": "your cli app info.",
+            "properties": {
+                "name": {
+                    "title": "your cli app name.",
+                    "type": "string"
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the cli app name."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "V2AppInfo",
+            "type": "object"
+        },
+        "V2CmdCompInfo": {
+            "additionalProperties": false,
+            "description": "cmdcomp info.",
+            "properties": {
+                "version": {
+                    "const": "2",
+                    "title": "cmdcomp config schema version."
+                }
+            },
+            "required": [
+                "version"
+            ],
+            "title": "V2CmdCompInfo",
+            "type": "object"
+        },
+        "V2CommandArgument": {
+            "additionalProperties": false,
+            "description": "complete with the result of executing the command.",
+            "properties": {
+                "type": {
+                    "const": "command",
+                    "title": "complete with the result of executing the command."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the argument."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the argument."
+                },
+                "execute": {
+                    "title": "command to execute.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "execute"
+            ],
+            "title": "V2CommandArgument",
+            "type": "object"
+        },
+        "V2Config": {
+            "additionalProperties": false,
+            "description": "cmdcomp config v2.",
+            "properties": {
+                "cmdcomp": {
+                    "$ref": "#/$defs/V2CmdCompInfo"
+                },
+                "app": {
+                    "$ref": "#/$defs/V2AppInfo"
+                },
+                "root": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/V2PositionalArgumentsCommand"
+                        },
+                        {
+                            "$ref": "#/$defs/V2SubcommandsCommand"
+                        },
+                        {
+                            "$ref": "#/$defs/V2DelegateCommand"
+                        }
+                    ],
+                    "title": "Root"
+                }
+            },
+            "required": [
+                "cmdcomp",
+                "app",
+                "root"
+            ],
+            "title": "V2Config",
+            "type": "object"
+        },
+        "V2DelegateCommand": {
+            "additionalProperties": false,
+            "description": "delegate completion of other command.",
+            "properties": {
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the argument."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the argument."
+                },
+                "type": {
+                    "const": "delegate",
+                    "title": "delegate completion of other command."
+                },
+                "target": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "examples": [
+                        "aws",
+                        [
+                            "aws",
+                            "s3"
+                        ],
+                        [
+                            "aws",
+                            "s3",
+                            "ls"
+                        ]
+                    ],
+                    "title": "delegate target command name."
+                },
+                "arguments": {
+                    "description": "argment key allow keyword string (like \"--f\", \"-f\") only.",
+                    "patternProperties": {
+                        "^--?[a-zA-Z0-9_-]+$": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2SelectArgument"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2FileArgument"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2CommandArgument"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2FlagArgument"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        }
+                    },
+                    "title": "arguments of the command.",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "type",
+                "target"
+            ],
+            "title": "V2DelegateCommand",
+            "type": "object"
+        },
+        "V2FileArgument": {
+            "additionalProperties": false,
+            "description": "completion of file names starting from the specified directory.",
+            "properties": {
+                "type": {
+                    "const": "file",
+                    "title": "Type"
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the argument."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the argument."
+                },
+                "base_path": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "path of the directory from which to base filename completion."
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "title": "V2FileArgument",
+            "type": "object"
+        },
+        "V2FlagArgument": {
+            "additionalProperties": false,
+            "description": "completion of flags to support enable/disable.",
+            "properties": {
+                "type": {
+                    "const": "flag",
+                    "title": "completion of flags to support enable/disable."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the argument."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the argument."
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "title": "V2FlagArgument",
+            "type": "object"
+        },
+        "V2PositionalArgumentsCommand": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the command."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the command."
+                },
+                "arguments": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "$ref": "#/$defs/V2SelectArgument"
+                            },
+                            {
+                                "$ref": "#/$defs/V2FileArgument"
+                            },
+                            {
+                                "$ref": "#/$defs/V2CommandArgument"
+                            },
+                            {
+                                "$ref": "#/$defs/V2FlagArgument"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "description": "argment key allow positional integer (like 1, 2), keyword string (like \"--f\", \"-f\"), wildcard string (\"*\").",
+                    "title": "arguments of the command.",
+                    "type": "object"
+                }
+            },
+            "required": [
+                "arguments"
+            ],
+            "title": "V2PositionalArgumentsCommand",
+            "type": "object"
+        },
+        "V2SelectArgument": {
+            "additionalProperties": false,
+            "description": "completion for choosing from options.",
+            "properties": {
+                "type": {
+                    "const": "select",
+                    "title": "completion for choosing from options."
+                },
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the argument."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the argument."
+                },
+                "options": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "completion candidates."
+                },
+                "values": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "deprecated": true,
+                    "description": "this field is deprecated. use `options` instead.",
+                    "title": "completion candidates."
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "title": "V2SelectArgument",
+            "type": "object"
+        },
+        "V2SubcommandsCommand": {
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "description of the command."
+                },
+                "alias": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "title": "alias of the command."
+                },
+                "arguments": {
+                    "description": "argment key allow keyword string (like \"--f\", \"-f\") only.",
+                    "patternProperties": {
+                        "^--?[a-zA-Z0-9_-]+$": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2SelectArgument"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2FileArgument"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2CommandArgument"
+                                },
+                                {
+                                    "$ref": "#/$defs/V2FlagArgument"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        }
+                    },
+                    "title": "arguments of the command.",
+                    "type": "object"
+                },
+                "subcommands": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/V2PositionalArgumentsCommand"
+                            },
+                            {
+                                "$ref": "#/$defs/V2SubcommandsCommand"
+                            },
+                            {
+                                "$ref": "#/$defs/V2DelegateCommand"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "title": "subcommands of the command.",
+                    "type": "object"
+                }
+            },
+            "title": "V2SubcommandsCommand",
+            "type": "object"
+        }
+    },
+    "anyOf": [
+        {
+            "$ref": "#/$defs/V1Config"
+        },
+        {
+            "$ref": "#/$defs/V2Config"
+        }
+    ],
+    "description": "cmdcomp config.",
+    "title": "Config"
+}

@@ -1,0 +1,10 @@
+[cmdcomp]
+version = "2"
+
+[app]
+name = "mycli"
+
+[root.arguments.--start-date]
+type = "command"
+description = "start date."
+execute = "date +%Y-%m-%d"

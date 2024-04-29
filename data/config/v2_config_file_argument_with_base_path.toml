@@ -1,0 +1,10 @@
+[cmdcomp]
+version = "2"
+
+[app]
+name = "mycli"
+
+[root.arguments.--list]
+type = "file"
+description = "list my command targets."
+base_path = "$HOME/.mycmd/targets"

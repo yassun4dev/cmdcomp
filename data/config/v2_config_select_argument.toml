@@ -1,0 +1,10 @@
+[cmdcomp]
+version = "2"
+
+[app]
+name = "mycli"
+
+[root.arguments.--format]
+type = "select"
+description = "output format."
+options = ["json", "yaml", "toml"]

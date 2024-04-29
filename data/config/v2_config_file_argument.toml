@@ -1,0 +1,9 @@
+[cmdcomp]
+version = "2"
+
+[app]
+name = "mycli"
+
+[root.arguments.--output]
+type = "file"
+description = "output filename."

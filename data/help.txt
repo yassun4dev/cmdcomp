@@ -1,0 +1,17 @@
+Usage: cmdcomp [-h] [--version] [--verbose | --no-verbose] --file FILE
+               --shell-type {bash,zsh} [--output-file OUTPUT_FILE]
+
+shell completion file generator.
+
+Options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  --verbose, --no-verbose
+                        output verbose log.
+  --file, --config, -f FILE
+                        config file path. supported formats are ".json",
+                        ".yaml", ".toml" and ".jinja".
+  --shell-type {bash,zsh}
+                        target shell type.
+  --output-file, -o OUTPUT_FILE
+                        output file path. default is stdout.
